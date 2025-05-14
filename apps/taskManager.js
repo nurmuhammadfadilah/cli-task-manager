@@ -1,12 +1,19 @@
 const fs = require("fs");
-const { readTasks, writeTasks } = require("./utils");
+const { readTasks, writeTasks } = require("../utils/utils");
 
 function addTask(title) {
   const tasks = readTasks();
   const id = tasks.length ? tasks[tasks.length - 1].id + 1 : 1;
-  tasks.push({ id, title, status: "todo" });
+  const timestamp = new Date().toISOString();
+  tasks.push({
+    id,
+    title,
+    status: "todo",
+    createdAt: timestamp,
+    updatedAt: timestamp,
+  });
   writeTasks(tasks);
-  console.log("Task added.");
+  console.log("✅ Tugas berhasil ditambahkan.");
 }
 
 function updateTask(id, title) {
@@ -14,10 +21,11 @@ function updateTask(id, title) {
   const index = tasks.findIndex((t) => t.id === id);
   if (index !== -1) {
     tasks[index].title = title;
+    tasks[index].updatedAt = new Date().toISOString();
     writeTasks(tasks);
-    console.log("Task updated.");
+    console.log("✏️ Tugas berhasil diperbarui.");
   } else {
-    console.log("Task not found.");
+    console.log("❌ Tugas tidak ditemukan.");
   }
 }
 
@@ -27,25 +35,26 @@ function deleteTask(id) {
   tasks = tasks.filter((t) => t.id !== id);
   if (tasks.length !== initialLength) {
     writeTasks(tasks);
-    console.log("Task deleted.");
+    console.log("🗑️ Tugas berhasil dihapus.");
   } else {
-    console.log("Task not found.");
+    console.log("❌ Tugas tidak ditemukan.");
   }
 }
 
 function setStatus(id, status) {
   const allowed = ["todo", "inprogress", "done"];
   if (!allowed.includes(status)) {
-    return console.log("Invalid status. Use: todo, inprogress, done");
+    return console.log("❌ Status tidak valid. Gunakan: todo, inprogress, done");
   }
   const tasks = readTasks();
   const task = tasks.find((t) => t.id === id);
   if (task) {
     task.status = status;
+    task.updatedAt = new Date().toISOString();
     writeTasks(tasks);
-    console.log("Status updated.");
+    console.log("🔄 Status tugas berhasil diubah.");
   } else {
-    console.log("Task not found.");
+    console.log("❌ Tugas tidak ditemukan.");
   }
 }
 
@@ -56,11 +65,9 @@ function listTasks(filter) {
     filtered = tasks.filter((t) => t.status === filter);
   }
   if (!filtered.length) {
-    return console.log("No tasks found.");
+    return console.log("📭 Tidak ada tugas ditemukan.");
   }
-  filtered.forEach((t) =>
-    console.log(`#${t.id} [${t.status.toUpperCase()}] ${t.title}`)
-  );
+  filtered.forEach((t) => console.log(`#${t.id} [${t.status.toUpperCase()}] ${t.title}\n  🕓 Dibuat: ${t.createdAt}\n  🔁 Diperbarui: ${t.updatedAt}`));
 }
 
 module.exports = {

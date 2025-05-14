@@ -1,6 +1,6 @@
 const fs = require("fs");
 
-const TASKS_FILE = "./tasks.json";
+const TASKS_FILE = "./data/tasks.json";
 
 function readTasks() {
   if (!fs.existsSync(TASKS_FILE)) return [];

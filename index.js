@@ -1,5 +1,5 @@
 const yargs = require("yargs");
-const taskManager = require("./taskManager");
+const taskManager = require("./apps/taskManager");
 
 // Add Task
 yargs.command({
