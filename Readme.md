@@ -14,15 +14,6 @@ Aplikasi Command Line Interface (CLI) sederhana untuk mengelola daftar tugas (to
   - 🚧 Sedang dikerjakan (inprogress)
   - ❌ Belum dikerjakan (todo)
 
-## 📁 Struktur Folder
-
-- task-manager-cli/
-- ├── tasks.json
-- ├── index.js
-- ├── taskManager.js
-- ├── utils.js
-- ├── package.json
-
 ## 🚀 Cara Menjalankan
 
 ### 1. Clone atau Download Proyek
